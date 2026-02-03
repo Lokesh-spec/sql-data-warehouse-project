@@ -1,5 +1,5 @@
 -- =============================================
--- Starter Script for Bronze Layer Tables
+-- Script for Bronze Layer Tables
 -- Drops existing tables and recreates them
 -- =============================================
 
