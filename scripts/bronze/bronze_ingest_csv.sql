@@ -1,37 +1,27 @@
 -- =============================================
--- Script: Load Bronze Tables from CSV
--- =============================================
+-- Script: load_bronze_csv.sql
+-- Version: 1.0
+-- Date: 2026-02-03
+-- Author: Data Engineering Team
 -- Purpose:
--- This script loads raw CSV data files into the Bronze layer tables in the 'bronze' schema.
--- The Bronze layer serves as the raw ingestion layer in the data pipeline.
--- It includes:
---   1. Customer Information (crm_cust_info)
---   2. Product Information (crm_prd_info)
---   3. Sales Details (crm_sales_details)
---   4. ERP Customer Data (erp_cust_az12)
---   5. ERP Location Data (erp_loc_a101)
---   6. ERP Product Category Data (erp_px_cat_g1v2)
--- 
+--   Load raw CSV files into Bronze layer tables in the 'bronze' schema.
+--   This script assumes the following:
+--     1. CSV files are mounted inside the container at /datasets/
+--     2. Filenames exactly match those in /datasets/source_crm/ and /datasets/source_erp/
+--     3. Columns in CSV match the table definitions
+--     4. crm_sales_details date columns are stored as INTEGER
 -- Notes:
--- - CSV files must be present at the specified paths inside the Postgres container.
--- - Columns in the CSV files must match the table definitions.
--- - Date columns in crm_sales_details are now stored as INTEGER.
--- - CSV files must have headers; 'CSV HEADER' is used in COPY commands.
+--   - Run this script inside the Postgres container using psql:
+--       docker exec -it my-postgres-container psql -U ${POSTGRES_USER} -d ${POSTGRES_SCHEMA} -f /path/to/load_bronze_csv.sql
 -- =============================================
 
 -- ==========================
 -- 1. Customer Information
 -- ==========================
 COPY bronze.crm_cust_info(
-    cst_id, 
-    cst_key, 
-    cst_firstname, 
-    cst_lastname, 
-    cst_marital_status, 
-    cst_gndr, 
-    cst_create_date
+    cst_id, cst_key, cst_firstname, cst_lastname, cst_marital_status, cst_gndr, cst_create_date
 )
-FROM '/datasets/source_crm/crm_cust_info.csv'
+FROM '/datasets/source_crm/cust_info.csv'
 DELIMITER ','
 CSV HEADER;
 
@@ -41,25 +31,18 @@ CSV HEADER;
 COPY bronze.crm_prd_info(
     prd_id, prd_key, prd_nm, prd_cost, prd_line, prd_start_dt, prd_end_dt
 )
-FROM '/datasets/source_crm/crm_prd_info.csv'
+FROM '/datasets/source_crm/prd_info.csv'
 DELIMITER ','
 CSV HEADER;
 
 -- ==========================
--- 3. Sales Details (dates now integers)
+-- 3. Sales Details (dates stored as INTEGER)
 -- ==========================
 COPY bronze.crm_sales_details(
-    sls_ord_num,
-    sls_prd_key,
-    sls_cust_id,
-    sls_order_dt,
-    sls_ship_dt,
-    sls_due_dt,
-    sls_sales,
-    sls_quantity,
-    sls_price
+    sls_ord_num, sls_prd_key, sls_cust_id, sls_order_dt, sls_ship_dt, sls_due_dt,
+    sls_sales, sls_quantity, sls_price
 )
-FROM '/datasets/source_crm/crm_sales_details.csv'
+FROM '/datasets/source_crm/sales_details.csv'
 DELIMITER ','
 CSV HEADER;
 
