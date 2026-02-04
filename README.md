@@ -31,8 +31,10 @@ The overall system architecture and data flow are documented in the diagrams bel
 
 - **Data Warehouse Architecture**
 ![Data Warehouse Architecture](docs/Modern_Data_Warehouse_Modern_Data_Warehouse.png)
+
 - **Data Flow Diagram (CRM → ERP → Warehouse)**
 ![Data Flow Diagram (CRM → ERP → Warehouse)](docs/Data_Flow.png)
+
 - **Sales Data Mart Star Schema**
 ![Sales Data Mart Star Schema](docs/Sales_Data_Mart.png)
 
