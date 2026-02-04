@@ -39,7 +39,6 @@ The overall system architecture and data flow are documented in the diagrams bel
 
 ---
 
-- **Sales Data Mart Star Schema**
 ![Sales Data Mart Star Schema](docs/Sales_Data_Mart.png)
 
 
